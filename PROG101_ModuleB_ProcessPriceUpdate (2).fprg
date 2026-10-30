@@ -1,0 +1,113 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="3.0">
+    <attributes>
+        <attribute name="name" value="Module B - Process a Price Update"/>
+        <attribute name="authors" value="James John Jeremiah Marke"/>
+        <attribute name="about" value="PROG101 Assignment 1 - Farm-price system"/>
+        <attribute name="saved" value="2026-10-14 10:00:00 AM"/>
+        <attribute name="created" value="2026-10-14 10:00:00 AM"/>
+        <attribute name="edited" value="2026-10-14 10:00:00 AM"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="market" type="String" array="False" size=""/>
+            <declare name="date" type="String" array="False" size=""/>
+            <declare name="cropChoice" type="Integer" array="False" size=""/>
+            <declare name="i" type="Integer" array="False" size=""/>
+            <declare name="farmerCount" type="Integer" array="False" size=""/>
+            <declare name="existingCount" type="Integer" array="False" size=""/>
+            <declare name="alertsSent" type="Integer" array="False" size=""/>
+            <declare name="currentPrice" type="Real" array="False" size=""/>
+            <declare name="existingTotal" type="Real" array="False" size=""/>
+            <declare name="averagePrice" type="Real" array="False" size=""/>
+            <declare name="marketFound" type="Boolean" array="False" size=""/>
+            <declare name="farmerName" type="String" array="True" size="6"/>
+            <declare name="farmerLocation" type="String" array="True" size="6"/>
+            <declare name="farmerCrop" type="Integer" array="True" size="6"/>
+            <declare name="farmerTarget" type="Real" array="True" size="6"/>
+            <comment text="SAMPLE DATA: arrays hold up to 6 farmers. farmerCount says how many are filled in."/>
+            <assign variable="farmerName[0]" expression="&quot;Mariama&quot;"/>
+            <assign variable="farmerLocation[0]" expression="&quot;Bo&quot;"/>
+            <assign variable="farmerCrop[0]" expression="1"/>
+            <assign variable="farmerTarget[0]" expression="450"/>
+            <assign variable="farmerName[1]" expression="&quot;Ibrahim&quot;"/>
+            <assign variable="farmerLocation[1]" expression="&quot;Bo&quot;"/>
+            <assign variable="farmerCrop[1]" expression="2"/>
+            <assign variable="farmerTarget[1]" expression="300"/>
+            <assign variable="farmerName[2]" expression="&quot;Fatmata&quot;"/>
+            <assign variable="farmerLocation[2]" expression="&quot;Kenema&quot;"/>
+            <assign variable="farmerCrop[2]" expression="1"/>
+            <assign variable="farmerTarget[2]" expression="400"/>
+            <assign variable="farmerName[3]" expression="&quot;Aminata&quot;"/>
+            <assign variable="farmerLocation[3]" expression="&quot;Freetown&quot;"/>
+            <assign variable="farmerCrop[3]" expression="1"/>
+            <assign variable="farmerTarget[3]" expression="90"/>
+            <assign variable="farmerCount" expression="4"/>
+            <comment text="SAMPLE DATA: prices already stored today for this crop: 470 + 475 + 465 = 1410 across 3 markets"/>
+            <assign variable="existingTotal" expression="1410"/>
+            <assign variable="existingCount" expression="3"/>
+            <output expression="&quot;Enter the price update&quot;" newline="True"/>
+            <output expression="&quot;Choose crop: 1 Rice, 2 Cassava, 3 Groundnut, 4 Pepper&quot;" newline="True"/>
+            <input variable="cropChoice"/>
+            <output expression="&quot;Enter market (for example Bo)&quot;" newline="True"/>
+            <input variable="market"/>
+            <output expression="&quot;Enter price&quot;" newline="True"/>
+            <input variable="currentPrice"/>
+            <output expression="&quot;Enter date&quot;" newline="True"/>
+            <input variable="date"/>
+            <if expression="market = &quot;&quot; OR date = &quot;&quot;">
+                <then>
+                    <output expression="&quot;Update rejected: a field is blank&quot;" newline="True"/>
+                </then>
+                <else>
+                    <if expression="currentPrice &lt;= 0 OR cropChoice &lt; 1 OR cropChoice &gt; 4">
+                        <then>
+                            <output expression="&quot;Update rejected: invalid price or crop&quot;" newline="True"/>
+                        </then>
+                        <else>
+                            <comment text="Price record stored (simulated)"/>
+                            <assign variable="averagePrice" expression="(existingTotal + currentPrice) / (existingCount + 1)"/>
+                            <output expression="&quot;Price stored. Average price: &quot; &amp; averagePrice" newline="True"/>
+                            <assign variable="marketFound" expression="false"/>
+                            <assign variable="alertsSent" expression="0"/>
+                            <assign variable="i" expression="0"/>
+                            <while expression="i &lt; farmerCount">
+                                <if expression="farmerLocation[i] = market">
+                                    <then>
+                                        <assign variable="marketFound" expression="true"/>
+                                    </then>
+                                    <else/>
+                                </if>
+                                <if expression="farmerCrop[i] = cropChoice AND farmerLocation[i] = market AND currentPrice &gt;= farmerTarget[i]">
+                                    <then>
+                                        <output expression="&quot;ALERT sent to &quot; &amp; farmerName[i] &amp; &quot;: price is &quot; &amp; currentPrice" newline="True"/>
+                                        <assign variable="alertsSent" expression="alertsSent + 1"/>
+                                    </then>
+                                    <else>
+                                        <comment text="No alert for this farmer"/>
+                                    </else>
+                                </if>
+                                <assign variable="i" expression="i + 1"/>
+                            </while>
+                            <output expression="&quot;Farmers checked: &quot; &amp; i" newline="True"/>
+                            <if expression="marketFound = false">
+                                <then>
+                                    <output expression="&quot;No registered farmer is in the market you entered: &quot; &amp; market" newline="True"/>
+                                </then>
+                                <else>
+                                    <if expression="alertsSent = 0">
+                                        <then>
+                                            <output expression="&quot;No alerts sent: no farmer in this market had a matching crop and target price&quot;" newline="True"/>
+                                        </then>
+                                        <else/>
+                                    </if>
+                                </else>
+                            </if>
+                        </else>
+                    </if>
+                </else>
+            </if>
+        </body>
+    </function>
+</flowgorithm>

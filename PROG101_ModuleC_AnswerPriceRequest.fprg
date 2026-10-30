@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="3.0">
+    <attributes>
+        <attribute name="name" value="Module C - Answer a Price Request"/>
+        <attribute name="authors" value="James John Jeremiah Marke"/>
+        <attribute name="about" value="PROG101 Assignment 1 - Farm-price system"/>
+        <attribute name="saved" value="2026-10-14 10:00:00 AM"/>
+        <attribute name="created" value="2026-10-14 10:00:00 AM"/>
+        <attribute name="edited" value="2026-10-14 10:00:00 AM"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="cropChoice" type="Integer" array="False" size=""/>
+            <declare name="latestPrice" type="Real" array="True" size="4"/>
+            <declare name="averagePrice" type="Real" array="True" size="4"/>
+            <comment text="Sample stored prices. 0 means no price stored yet."/>
+            <assign variable="latestPrice[0]" expression="480"/>
+            <assign variable="averagePrice[0]" expression="470"/>
+            <assign variable="latestPrice[1]" expression="0"/>
+            <assign variable="averagePrice[1]" expression="0"/>
+            <assign variable="latestPrice[2]" expression="350"/>
+            <assign variable="averagePrice[2]" expression="345"/>
+            <assign variable="latestPrice[3]" expression="0"/>
+            <assign variable="averagePrice[3]" expression="0"/>
+            <output expression="&quot;Choose crop: 1 Rice, 2 Cassava, 3 Groundnut, 4 Pepper&quot;" newline="True"/>
+            <input variable="cropChoice"/>
+            <if expression="cropChoice &gt;= 1 AND cropChoice &lt;= 4">
+                <then>
+                    <if expression="latestPrice[cropChoice - 1] = 0">
+                        <then>
+                            <output expression="&quot;No price available yet&quot;" newline="True"/>
+                        </then>
+                        <else>
+                            <output expression="&quot;Latest price: &quot; &amp; latestPrice[cropChoice - 1] &amp; &quot;. Average: &quot; &amp; averagePrice[cropChoice - 1]" newline="True"/>
+                        </else>
+                    </if>
+                </then>
+                <else>
+                    <output expression="&quot;Error: crop not supported&quot;" newline="True"/>
+                </else>
+            </if>
+        </body>
+    </function>
+</flowgorithm>

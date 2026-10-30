@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<flowgorithm fileversion="3.0">
+    <attributes>
+        <attribute name="name" value="Module A - Register a Farmer"/>
+        <attribute name="authors" value="James John Jeremiah Marke"/>
+        <attribute name="about" value="PROG101 Assignment 1 - Farm-price system"/>
+        <attribute name="saved" value="2026-10-14 10:00:00 AM"/>
+        <attribute name="created" value="2026-10-14 10:00:00 AM"/>
+        <attribute name="edited" value="2026-10-14 10:00:00 AM"/>
+    </attributes>
+    <function name="Main" type="None" variable="">
+        <parameters/>
+        <body>
+            <declare name="name" type="String" array="False" size=""/>
+            <declare name="location" type="String" array="False" size=""/>
+            <declare name="phoneNumber" type="String" array="False" size=""/>
+            <declare name="ch" type="String" array="False" size=""/>
+            <declare name="cropChoice" type="Integer" array="False" size=""/>
+            <declare name="i" type="Integer" array="False" size=""/>
+            <declare name="targetPrice" type="Real" array="False" size=""/>
+            <declare name="isRegistered" type="Boolean" array="False" size=""/>
+            <declare name="allDigits" type="Boolean" array="False" size=""/>
+            <output expression="&quot;Welcome to the farm price app&quot;" newline="True"/>
+            <output expression="&quot;Please enter your full name&quot;" newline="True"/>
+            <input variable="name"/>
+            <output expression="&quot;Please enter your location&quot;" newline="True"/>
+            <input variable="location"/>
+            <output expression="&quot;Please enter your phone number&quot;" newline="True"/>
+            <input variable="phoneNumber"/>
+            <output expression="&quot;Choose your crop: 1 Rice, 2 Cassava, 3 Groundnut, 4 Pepper&quot;" newline="True"/>
+            <input variable="cropChoice"/>
+            <output expression="&quot;Please enter your target price&quot;" newline="True"/>
+            <input variable="targetPrice"/>
+            <assign variable="isRegistered" expression="false"/>
+            <comment text="In the full system, isRegistered is looked up in the farmer list. Change to true to test the update path."/>
+            <assign variable="allDigits" expression="true"/>
+            <assign variable="i" expression="0"/>
+            <while expression="i &lt; Len(phoneNumber)">
+                <assign variable="ch" expression="Char(phoneNumber, i)"/>
+                <if expression="ch = &quot;0&quot; OR ch = &quot;1&quot; OR ch = &quot;2&quot; OR ch = &quot;3&quot; OR ch = &quot;4&quot; OR ch = &quot;5&quot; OR ch = &quot;6&quot; OR ch = &quot;7&quot; OR ch = &quot;8&quot; OR ch = &quot;9&quot;">
+                    <then>
+                        <comment text="Character is a digit"/>
+                    </then>
+                    <else>
+                        <assign variable="allDigits" expression="false"/>
+                    </else>
+                </if>
+                <assign variable="i" expression="i + 1"/>
+            </while>
+            <if expression="(Len(phoneNumber) = 9 OR Len(phoneNumber) = 12) AND allDigits = true">
+                <then>
+                    <if expression="cropChoice &gt;= 1 AND cropChoice &lt;= 4">
+                        <then>
+                            <if expression="targetPrice &gt; 0">
+                                <then>
+                                    <if expression="isRegistered = true">
+                                        <then>
+                                            <output expression="&quot;Existing record updated&quot;" newline="True"/>
+                                        </then>
+                                        <else>
+                                            <output expression="&quot;New farmer record created&quot;" newline="True"/>
+                                        </else>
+                                    </if>
+                                    <output expression="&quot;Registration successful&quot;" newline="True"/>
+                                </then>
+                                <else>
+                                    <output expression="&quot;Error: invalid target price&quot;" newline="True"/>
+                                </else>
+                            </if>
+                        </then>
+                        <else>
+                            <output expression="&quot;Error: crop not supported&quot;" newline="True"/>
+                        </else>
+                    </if>
+                </then>
+                <else>
+                    <output expression="&quot;Error: invalid phone number&quot;" newline="True"/>
+                </else>
+            </if>
+        </body>
+    </function>
+</flowgorithm>
